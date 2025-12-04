@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
 import Replicate from "replicate";
 
 export async function POST(request: NextRequest) {
@@ -13,29 +12,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Try Cloudflare context first, then fall back to process.env
-    let apiToken: string | undefined;
-    let source = "none";
-    try {
-      const ctx = await getCloudflareContext();
-      const env = ctx.env as Record<string, string>;
-      apiToken = env.REPLICATE_API_TOKEN;
-      if (apiToken) source = "cloudflare";
-      console.log("Cloudflare env keys:", Object.keys(env));
-    } catch (e) {
-      console.log("getCloudflareContext error:", e);
-    }
-    
-    if (!apiToken) {
-      apiToken = process.env.REPLICATE_API_TOKEN;
-      if (apiToken) source = "process.env";
-    }
-
-    console.log("Token source:", source, "Token exists:", !!apiToken);
+    const apiToken = process.env.REPLICATE_API_TOKEN;
 
     if (!apiToken) {
       return NextResponse.json(
-        { error: "REPLICATE_API_TOKEN not configured", debug: { source } },
+        { error: "REPLICATE_API_TOKEN not configured" },
         { status: 500 }
       );
     }
