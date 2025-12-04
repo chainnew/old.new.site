@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  --background: #1a1612;
+  --foreground: #f5e6d3;
+  --accent: #ff6b35;
+  --accent-gold: #d4a574;
+  --muted: #a89080;
+  --dark-brown: #2d2520;
+}
+
+body {
+  background: linear-gradient(145deg, #1a1612 0%, #2d2520 50%, #1a1612 100%);
+  color: var(--foreground);
+  font-family: 'Playfair Display', Georgia, serif;
+  min-height: 100vh;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scan {
+  0%, 100% { top: 0; }
+  50% { top: 100%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
