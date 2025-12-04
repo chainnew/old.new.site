@@ -448,6 +448,74 @@ const OldNew = () => {
             </button>
           </div>
         )}
+
+        {/* Gallery Section */}
+        <section id="gallery" className="w-full mt-24 mb-16">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-light mb-4">
+              <span className="opacity-60">See the</span>{" "}
+              <em className="italic text-[#d4a574]">transformation</em>
+            </h2>
+            <p className="font-[var(--font-dm-sans)] text-[#a89080]">
+              Real restorations from our community
+            </p>
+          </div>
+
+          {/* Scrolling Gallery */}
+          <div className="relative overflow-hidden">
+            <div 
+              className="flex gap-6 animate-scroll"
+              style={{
+                animation: "scroll 30s linear infinite",
+              }}
+            >
+              {[...Array(2)].map((_, setIndex) => (
+                <div key={setIndex} className="flex gap-6 shrink-0">
+                  {[
+                    { before: "👴", after: "🧑", year: "1942", desc: "Wedding portrait" },
+                    { before: "🏠", after: "🏡", year: "1955", desc: "Family home" },
+                    { before: "👨‍👩‍👧", after: "👨‍👩‍👧", year: "1968", desc: "Summer vacation" },
+                    { before: "🎓", after: "🎓", year: "1975", desc: "Graduation day" },
+                    { before: "👶", after: "👶", year: "1983", desc: "First birthday" },
+                    { before: "🚗", after: "🚗", year: "1960", desc: "First car" },
+                  ].map((item, i) => (
+                    <div
+                      key={i}
+                      className="relative w-[280px] h-[200px] rounded-lg overflow-hidden shrink-0 group cursor-pointer"
+                      style={{
+                        background: "linear-gradient(145deg, #2a2420, #1e1a16)",
+                        boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
+                      }}
+                    >
+                      {/* Before side */}
+                      <div className="absolute inset-0 w-1/2 flex items-center justify-center text-6xl opacity-50 grayscale"
+                        style={{ filter: "sepia(100%)" }}>
+                        {item.before}
+                      </div>
+                      {/* After side */}
+                      <div className="absolute inset-0 left-1/2 w-1/2 flex items-center justify-center text-6xl">
+                        {item.after}
+                      </div>
+                      {/* Divider */}
+                      <div className="absolute top-0 bottom-0 left-1/2 w-[2px] bg-[#d4a574]/50" />
+                      {/* Labels */}
+                      <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+                        <p className="font-[var(--font-dm-sans)] text-xs text-[#d4a574]">{item.year}</p>
+                        <p className="font-[var(--font-dm-sans)] text-sm text-[#f5e6d3]">{item.desc}</p>
+                      </div>
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-[#ff6b35]/0 group-hover:bg-[#ff6b35]/10 transition-colors" />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+
+            {/* Gradient fades */}
+            <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#1a1612] to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#1a1612] to-transparent pointer-events-none z-10" />
+          </div>
+        </section>
       </main>
     </div>
   );
