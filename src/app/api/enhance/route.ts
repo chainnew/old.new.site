@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import Replicate from "replicate";
-
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
-});
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,12 +13,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!process.env.REPLICATE_API_TOKEN) {
+    // Try Cloudflare context first, then fall back to process.env
+    let apiToken: string | undefined;
+    try {
+      const { env } = await getCloudflareContext();
+      apiToken = (env as Record<string, string>).REPLICATE_API_TOKEN;
+    } catch {
+      apiToken = process.env.REPLICATE_API_TOKEN;
+    }
+
+    if (!apiToken) {
       return NextResponse.json(
         { error: "REPLICATE_API_TOKEN not configured" },
         { status: 500 }
       );
     }
+
+    const replicate = new Replicate({ auth: apiToken });
 
     // Use CodeFormer - best balance of quality and natural look
     const prediction = await replicate.predictions.create({
